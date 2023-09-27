@@ -2,7 +2,7 @@ import Filters from "@/components/ui/Filters"
 import Header from "@/components/ui/Header";
 import ResourceCard from "@/components/ui/ResourceCard";
 import SearchForm from "@/components/ui/SearchForm"
-import {getResources} from "@/sanity/actions"
+import {getResources, getResourcesPlaylist} from "@/sanity/actions"
 
 interface Props {
     searchParams: {[key: string]: string | undefined}
@@ -15,7 +15,9 @@ const Page = async ({searchParams}: Props) => {
         page: '1'
     });
 
+    const resourcesPlaylist = await getResourcesPlaylist();
 
+    console.log(resourcesPlaylist[0]);
 
     return (
         <main className="flex-center paddings mx-auto w-full max-w-screen-2xl flex-col">
@@ -44,6 +46,7 @@ const Page = async ({searchParams}: Props) => {
                                     id={resource._id}
                                     image={resource.image}
                                     downloadNumber={resource.views}
+                                    downloadLink={resource.downloadLink}
                                 />
                             ))
                         ) : (
@@ -55,6 +58,23 @@ const Page = async ({searchParams}: Props) => {
                 </section>
             )}
 
+            {resourcesPlaylist.map((item: any) => (
+                <section key={item._id} className="flex-center mt-6 w-full flex-col sm:mt-20">
+                    <h1 className="heading3 self-start text-white-800">{item.title}</h1>
+                    <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
+                        {item.resources.map((resource: any) => (
+                            <ResourceCard
+                                key={resource._id}
+                                title={resource.title}
+                                id={resource._id}
+                                image={resource.image}
+                                downloadNumber={resource.views}
+                                downloadLink={resource.downloadLink}
+                            />
+                        ))}
+                    </div>
+                </section>
+            ))}
         </main>
     )
 }
