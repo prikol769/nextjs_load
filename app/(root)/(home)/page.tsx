@@ -1,4 +1,5 @@
 import Filters from "@/components/ui/Filters"
+import ResourceCard from "@/components/ui/ResourceCard";
 import SearchForm from "@/components/ui/SearchForm"
 import {getResources} from "@/sanity/actions"
 
@@ -29,7 +30,13 @@ const Page = async () => {
                 <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
                     {resources?.length > 0 ? (
                         resources.map((resource: any) => (
-                            <h1></h1>
+                            <ResourceCard
+                                key={resource._id}
+                                title={resource.title}
+                                id={resource._id}
+                                image={resource.image}
+                                downloadNumber={resource.views}
+                            />
                         ))
                     ) : (
                         <p className="body-regular text-white-400">
