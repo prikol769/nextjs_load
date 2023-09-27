@@ -1,12 +1,17 @@
 import Filters from "@/components/ui/Filters"
+import Header from "@/components/ui/Header";
 import ResourceCard from "@/components/ui/ResourceCard";
 import SearchForm from "@/components/ui/SearchForm"
 import {getResources} from "@/sanity/actions"
 
-const Page = async () => {
+interface Props {
+    searchParams: {[key: string]: string | undefined}
+}
+
+const Page = async ({searchParams}: Props) => {
     const resources = await getResources({
         query: '',
-        category: '',
+        category: searchParams?.category || '',
         page: '1'
     });
 
@@ -25,7 +30,7 @@ const Page = async () => {
             <Filters />
 
             <section className="flex-center mt-6 w-full flex-col sm:mt-20">
-                Header
+                <Header />
 
                 <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
                     {resources?.length > 0 ? (
